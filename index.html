@@ -420,6 +420,159 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+
+        /* 통계 탭 스타일 */
+        .stats-tabs {
+            display: flex;
+            background-color: #f8fafc;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            color: #6b7280;
+        }
+
+        .tab-btn.active {
+            background-color: white;
+            color: #3b82f6;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn:hover:not(.active) {
+            color: #3b82f6;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .stats-detail {
+            background-color: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-item .stat-label {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .stat-item .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #3b82f6;
+        }
+
+        .chart-container {
+            margin-top: 20px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* 성취 배지 스타일 */
+        .achievement-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 12px;
+            border: 1px solid #f59e0b;
+        }
+
+        .achievement-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #92400e;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .achievement-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .achievement-badge {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #333;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* 데이터 복원 알림 */
+        .data-restore-notification {
+            background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+            border: 1px solid #3b82f6;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px;
+            text-align: center;
+        }
+
+        .data-restore-notification h3 {
+            color: #1e40af;
+            margin-bottom: 8px;
+        }
+
+        .data-restore-notification p {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .restore-btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            margin: 0 4px;
+        }
+
+        .restore-btn:hover {
+            background-color: #2563eb;
+        }
         
         .encouragement-message {
             margin: 32px 16px 16px;
@@ -541,6 +694,72 @@
             </div>
         </div>
 
+        <!-- 상세 통계 섹션 -->
+        <div class="exercise-section">
+            <div class="section-header">
+                <h2 class="section-title">📊 상세 통계</h2>
+                <button class="btn btn-secondary" onclick="generateSampleData()">샘플 데이터 생성</button>
+            </div>
+            
+            <!-- 통계 탭 -->
+            <div class="stats-tabs">
+                <button class="tab-btn active" onclick="switchTab('weekly')">주간</button>
+                <button class="tab-btn" onclick="switchTab('monthly')">월간</button>
+                <button class="tab-btn" onclick="switchTab('yearly')">연간</button>
+            </div>
+
+            <!-- 주간 통계 -->
+            <div class="tab-content active" id="weeklyTab">
+                <div class="stats-detail">
+                    <div class="stat-item">
+                        <span class="stat-label">이번 주 완료일</span>
+                        <span class="stat-value" id="weeklyCompleted">0일</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">주간 목표 달성률</span>
+                        <span class="stat-value" id="weeklyGoal">0%</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="weeklyChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 월간 통계 -->
+            <div class="tab-content" id="monthlyTab">
+                <div class="stats-detail">
+                    <div class="stat-item">
+                        <span class="stat-label">이번 달 완료일</span>
+                        <span class="stat-value" id="monthlyCompleted">0일</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">월간 목표 달성률</span>
+                        <span class="stat-value" id="monthlyGoal">0%</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="monthlyChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 연간 통계 -->
+            <div class="tab-content" id="yearlyTab">
+                <div class="stats-detail">
+                    <div class="stat-item">
+                        <span class="stat-label">올해 완료일</span>
+                        <span class="stat-value" id="yearlyCompleted">0일</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">연간 목표 달성률</span>
+                        <span class="stat-value" id="yearlyGoal">0%</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="yearlyChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 완료 메시지 -->
         <div class="completion-message hidden" id="completionMessage">
             <div style="font-size: 18px; font-weight: bold; margin-bottom: 8px;">
@@ -568,6 +787,22 @@
             </div>
             
             <div id="exerciseList"></div>
+        </div>
+
+        <!-- 성취 배지 섹션 -->
+        <div class="achievement-section" id="achievementSection" style="display: none;">
+            <div class="achievement-title">🏆 성취 배지</div>
+            <div class="achievement-badges" id="achievementBadges">
+                <!-- 성취 배지들이 여기에 표시됩니다 -->
+            </div>
+        </div>
+
+        <!-- 데이터 복원 알림 -->
+        <div class="data-restore-notification" id="dataRestoreNotification" style="display: none;">
+            <h3>📊 데이터 복원 가능</h3>
+            <p>이전에 저장된 운동 데이터를 발견했습니다. 복원하시겠습니까?</p>
+            <button class="restore-btn" onclick="restoreData()">복원하기</button>
+            <button class="restore-btn" onclick="dismissRestoreNotification()" style="background-color: #6b7280;">새로 시작</button>
         </div>
 
         <!-- 격려 메시지 -->
@@ -634,6 +869,8 @@
         let history = {};
         let streakData = { current: 0, best: 0 };
         let currentWeekStart = null;
+        let achievements = [];
+        let currentTab = 'weekly';
 
         // 초기화
         function init() {
@@ -683,6 +920,8 @@
         // 데이터 로드
         function loadData() {
             const savedHistory = localStorage.getItem('exerciseHistory');
+            const savedAchievements = localStorage.getItem('exerciseAchievements');
+            
             if (savedHistory) {
                 try {
                     history = JSON.parse(savedHistory);
@@ -693,6 +932,19 @@
                 } catch (error) {
                     console.error('Failed to parse saved history:', error);
                 }
+            }
+            
+            if (savedAchievements) {
+                try {
+                    achievements = JSON.parse(savedAchievements);
+                } catch (error) {
+                    console.error('Failed to parse saved achievements:', error);
+                }
+            }
+            
+            // 데이터 복원 알림 표시
+            if (Object.keys(history).length > 0) {
+                showDataRestoreNotification();
             }
         }
 
@@ -706,6 +958,7 @@
                 completionRate: (Object.values(todayRecords).filter(r => r.completed).length / exercises.length) * 100
             };
             localStorage.setItem('exerciseHistory', JSON.stringify(history));
+            localStorage.setItem('exerciseAchievements', JSON.stringify(achievements));
         }
 
         // 운동 완료 토글
@@ -826,6 +1079,9 @@
             document.getElementById('currentStreak').textContent = streakData.current;
             document.getElementById('bestStreak').textContent = streakData.best;
             document.getElementById('totalDays').textContent = Object.keys(history).length;
+            
+            // 상세 통계 업데이트
+            updateDetailedStats();
             
             // 완료 메시지
             const completionMessage = document.getElementById('completionMessage');
@@ -1025,6 +1281,310 @@
                 closeImageModal();
             }
         });
+
+        // 탭 전환
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            // 모든 탭 버튼 비활성화
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // 선택된 탭 활성화
+            document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(`${tabName}Tab`).classList.add('active');
+            
+            // 차트 업데이트
+            updateCharts();
+        }
+
+        // 차트 업데이트
+        function updateCharts() {
+            if (currentTab === 'weekly') {
+                drawWeeklyChart();
+            } else if (currentTab === 'monthly') {
+                drawMonthlyChart();
+            } else if (currentTab === 'yearly') {
+                drawYearlyChart();
+            }
+        }
+
+        // 주간 차트 그리기
+        function drawWeeklyChart() {
+            const canvas = document.getElementById('weeklyChart');
+            const ctx = canvas.getContext('2d');
+            const weekDates = getWeekDates(currentWeekStart);
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const dayNames = ['월', '화', '수', '목', '금', '토', '일'];
+            const barWidth = canvas.width / 7;
+            const maxHeight = canvas.height - 40;
+            
+            weekDates.forEach((date, index) => {
+                const dateString = date.toDateString();
+                const dayData = history[dateString];
+                const isCompleted = dayData && dayData.completionRate === 100;
+                const barHeight = isCompleted ? maxHeight * 0.8 : maxHeight * 0.2;
+                
+                // 막대 그리기
+                ctx.fillStyle = isCompleted ? '#22c55e' : '#e2e8f0';
+                ctx.fillRect(index * barWidth + 10, canvas.height - barHeight - 20, barWidth - 20, barHeight);
+                
+                // 날짜 라벨
+                ctx.fillStyle = '#6b7280';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(dayNames[index], index * barWidth + barWidth/2, canvas.height - 5);
+            });
+        }
+
+        // 월간 차트 그리기
+        function drawMonthlyChart() {
+            const canvas = document.getElementById('monthlyChart');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const today = new Date();
+            const currentMonth = today.getMonth();
+            const currentYear = today.getFullYear();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            const barWidth = canvas.width / daysInMonth;
+            const maxHeight = canvas.height - 40;
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(currentYear, currentMonth, day);
+                const dateString = date.toDateString();
+                const dayData = history[dateString];
+                const isCompleted = dayData && dayData.completionRate === 100;
+                const barHeight = isCompleted ? maxHeight * 0.8 : maxHeight * 0.1;
+                
+                ctx.fillStyle = isCompleted ? '#3b82f6' : '#e2e8f0';
+                ctx.fillRect((day - 1) * barWidth + 2, canvas.height - barHeight - 20, barWidth - 4, barHeight);
+                
+                if (day % 5 === 0) {
+                    ctx.fillStyle = '#6b7280';
+                    ctx.font = '10px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(day, (day - 1) * barWidth + barWidth/2, canvas.height - 5);
+                }
+            }
+        }
+
+        // 연간 차트 그리기
+        function drawYearlyChart() {
+            const canvas = document.getElementById('yearlyChart');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            const monthNames = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+            
+            const barWidth = canvas.width / 12;
+            const maxHeight = canvas.height - 40;
+            
+            for (let month = 0; month < 12; month++) {
+                const daysInMonth = new Date(currentYear, month + 1, 0).getDate();
+                let completedDays = 0;
+                
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const date = new Date(currentYear, month, day);
+                    const dateString = date.toDateString();
+                    const dayData = history[dateString];
+                    if (dayData && dayData.completionRate === 100) {
+                        completedDays++;
+                    }
+                }
+                
+                const completionRate = completedDays / daysInMonth;
+                const barHeight = maxHeight * completionRate;
+                
+                ctx.fillStyle = completionRate > 0.7 ? '#8b5cf6' : completionRate > 0.3 ? '#3b82f6' : '#e2e8f0';
+                ctx.fillRect(month * barWidth + 10, canvas.height - barHeight - 20, barWidth - 20, barHeight);
+                
+                ctx.fillStyle = '#6b7280';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(monthNames[month], month * barWidth + barWidth/2, canvas.height - 5);
+            }
+        }
+
+        // 상세 통계 업데이트
+        function updateDetailedStats() {
+            const today = new Date();
+            const weekDates = getWeekDates(currentWeekStart);
+            const currentMonth = today.getMonth();
+            const currentYear = today.getFullYear();
+            
+            // 주간 통계
+            const weeklyCompleted = weekDates.filter(date => {
+                const dateString = date.toDateString();
+                const dayData = history[dateString];
+                return dayData && dayData.completionRate === 100;
+            }).length;
+            
+            // 월간 통계
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            let monthlyCompleted = 0;
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(currentYear, currentMonth, day);
+                const dateString = date.toDateString();
+                const dayData = history[dateString];
+                if (dayData && dayData.completionRate === 100) {
+                    monthlyCompleted++;
+                }
+            }
+            
+            // 연간 통계
+            let yearlyCompleted = 0;
+            for (let month = 0; month < 12; month++) {
+                const daysInMonth = new Date(currentYear, month + 1, 0).getDate();
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const date = new Date(currentYear, month, day);
+                    const dateString = date.toDateString();
+                    const dayData = history[dateString];
+                    if (dayData && dayData.completionRate === 100) {
+                        yearlyCompleted++;
+                    }
+                }
+            }
+            
+            // UI 업데이트
+            document.getElementById('weeklyCompleted').textContent = `${weeklyCompleted}일`;
+            document.getElementById('weeklyGoal').textContent = `${Math.round((weeklyCompleted / 7) * 100)}%`;
+            
+            document.getElementById('monthlyCompleted').textContent = `${monthlyCompleted}일`;
+            document.getElementById('monthlyGoal').textContent = `${Math.round((monthlyCompleted / daysInMonth) * 100)}%`;
+            
+            document.getElementById('yearlyCompleted').textContent = `${yearlyCompleted}일`;
+            document.getElementById('yearlyGoal').textContent = `${Math.round((yearlyCompleted / 365) * 100)}%`;
+        }
+
+        // 샘플 데이터 생성
+        function generateSampleData() {
+            if (confirm('샘플 데이터를 생성하시겠습니까? 기존 데이터는 유지됩니다.')) {
+                const today = new Date();
+                
+                // 지난 30일간의 샘플 데이터 생성
+                for (let i = 0; i < 30; i++) {
+                    const date = new Date(today);
+                    date.setDate(today.getDate() - i);
+                    const dateString = date.toDateString();
+                    
+                    // 이미 데이터가 있으면 건너뛰기
+                    if (history[dateString]) continue;
+                    
+                    // 70% 확률로 완료된 날 생성
+                    if (Math.random() > 0.3) {
+                        const records = {};
+                        exercises.forEach(exercise => {
+                            records[exercise.id] = { completed: true };
+                        });
+                        
+                        history[dateString] = {
+                            records: records,
+                            date: dateString,
+                            totalExercises: exercises.length,
+                            completionRate: 100
+                        };
+                    }
+                }
+                
+                localStorage.setItem('exerciseHistory', JSON.stringify(history));
+                renderWeekCalendar();
+                updateStats();
+                updateDetailedStats();
+                updateCharts();
+                checkAchievements();
+                
+                alert('샘플 데이터가 생성되었습니다! 📊');
+            }
+        }
+
+        // 성취 확인
+        function checkAchievements() {
+            const totalDays = Object.keys(history).length;
+            const newAchievements = [];
+            
+            // 연속 달성 성취
+            if (streakData.current >= 7 && !achievements.includes('streak_7')) {
+                newAchievements.push('streak_7');
+                achievements.push('streak_7');
+            }
+            
+            if (streakData.current >= 30 && !achievements.includes('streak_30')) {
+                newAchievements.push('streak_30');
+                achievements.push('streak_30');
+            }
+            
+            // 총 운동일 성취
+            if (totalDays >= 10 && !achievements.includes('total_10')) {
+                newAchievements.push('total_10');
+                achievements.push('total_10');
+            }
+            
+            if (totalDays >= 50 && !achievements.includes('total_50')) {
+                newAchievements.push('total_50');
+                achievements.push('total_50');
+            }
+            
+            // 새로운 성취가 있으면 표시
+            if (newAchievements.length > 0) {
+                showAchievements();
+                saveData();
+            }
+        }
+
+        // 성취 배지 표시
+        function showAchievements() {
+            const achievementSection = document.getElementById('achievementSection');
+            const achievementBadges = document.getElementById('achievementBadges');
+            
+            if (achievements.length > 0) {
+                achievementSection.style.display = 'block';
+                
+                const badgeMap = {
+                    'streak_7': '🔥 7일 연속',
+                    'streak_30': '🏆 30일 연속',
+                    'total_10': '⭐ 10일 달성',
+                    'total_50': '🎖️ 50일 달성'
+                };
+                
+                achievementBadges.innerHTML = achievements.map(achievement => 
+                    `<div class="achievement-badge">${badgeMap[achievement] || achievement}</div>`
+                ).join('');
+            }
+        }
+
+        // 데이터 복원 알림 표시
+        function showDataRestoreNotification() {
+            const notification = document.getElementById('dataRestoreNotification');
+            notification.style.display = 'block';
+        }
+
+        // 데이터 복원
+        function restoreData() {
+            const notification = document.getElementById('dataRestoreNotification');
+            notification.style.display = 'none';
+            
+            renderWeekCalendar();
+            updateStats();
+            updateDetailedStats();
+            updateCharts();
+            showAchievements();
+            
+            alert('데이터가 복원되었습니다! 📊');
+        }
+
+        // 복원 알림 닫기
+        function dismissRestoreNotification() {
+            const notification = document.getElementById('dataRestoreNotification');
+            notification.style.display = 'none';
+        }
 
         // 페이지 로드 시 초기화
         document.addEventListener('DOMContentLoaded', init);
