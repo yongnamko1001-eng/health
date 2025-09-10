@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#3b82f6">
+    <meta name="description" content="홍정기 교수님의 5대 인생근육운동을 매일 기록하고 관리하는 앱">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="근육운동">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <title>5대 인생근육운동 트래커</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background-color: #f8fafc;
+            color: #1f2937;
+            line-height: 1.6;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+        
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 0 0 24px 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        
+        .header-date {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+        
+        .progress-container {
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 12px;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .progress-bar {
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background-color: white;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 16px;
+        }
+        
+        .stat-card {
+            background-color: #f8fafc;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .stat-number {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #64748b;
+        }
+        
+        .completion-message {
+            background: linear-gradient(135deg, #22c55e 0%, #3b82f6 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 16px;
+        }
+        
+        .exercise-section {
+            padding: 16px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .btn {
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            min-height: 44px;
+            min-width: 44px;
+        }
+        
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        
+        .btn-success {
+            background-color: #22c55e;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #16a34a;
+        }
+        
+        .week-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .day-card {
+            background-color: #f8fafc;
+            padding: 12px 8px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .day-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+        }
+        
+        .day-card.completed {
+            background-color: #f0fdf4;
+            border-color: #22c55e;
+        }
+        
+        .day-card.today {
+            background-color: #dbeafe;
+            border-color: #3b82f6;
+        }
+        
+        .day-card.today.completed {
+            background-color: #dcfce7;
+            border-color: #22c55e;
+        }
+        
+        .day-name {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+        
+        .day-number {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+        
+        .day-status {
+            font-size: 20px;
+        }
+        
+        .exercise-card {
+            background-color: #f8fafc;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+        
+        .exercise-card.completed {
+            background-color: #f0fdf4;
+            border-color: #22c55e;
+        }
+        
+        .exercise-header {
+            margin-bottom: 12px;
+        }
+        
+        .exercise-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .exercise-name.completed {
+            color: #22c55e;
+        }
+        
+        .exercise-description {
+            font-size: 14px;
+            color: #3b82f6;
+            font-weight: 500;
+        }
+        
+        
+        .exercise-tip {
+            font-size: 12px;
+            color: #6b7280;
+            background-color: #f1f5f9;
+            border-radius: 8px;
+            padding: 8px;
+            margin-top: 8px;
+        }
+
+        .exercise-images {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .exercise-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+
+        .exercise-image:hover {
+            border-color: #3b82f6;
+            transform: scale(1.05);
+        }
+
+        .image-gallery-btn {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 11px;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .image-gallery-btn:hover {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        /* 이미지 모달 */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .image-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .image-counter {
+            color: white;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .image-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            font-size: 20px;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-nav:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .image-nav.prev {
+            left: 20px;
+        }
+
+        .image-nav.next {
+            right: 20px;
+        }
+
+        .image-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .encouragement-message {
+            margin: 32px 16px 16px;
+            padding: 16px;
+            background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+            border-radius: 12px;
+            border: 1px solid #c7d2fe;
+            text-align: center;
+            color: #6b7280;
+        }
+        
+        .encouragement-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* 모바일 최적화 */
+        @media (max-width: 480px) {
+            .stats-grid {
+                gap: 8px;
+                padding: 12px;
+            }
+            
+            .stat-card {
+                padding: 10px;
+            }
+            
+            .exercise-section {
+                padding: 12px;
+            }
+            
+            .exercise-card {
+                padding: 12px;
+            }
+        }
+        
+        /* 다크 모드 지원 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #1a1a1a;
+                color: #ffffff;
+            }
+            
+            .container {
+                background-color: #2a2a2a;
+            }
+            
+            .stat-card {
+                background-color: #3a3a3a;
+                border-color: #4a4a4a;
+            }
+            
+            .exercise-card {
+                background-color: #3a3a3a;
+                border-color: #4a4a4a;
+            }
+            
+            .exercise-card.completed {
+                background-color: #1a3a1a;
+                border-color: #22c55e;
+            }
+        }
+        
+        /* 고대비 모드 지원 */
+        @media (prefers-contrast: high) {
+            .exercise-card {
+                border-width: 3px;
+            }
+            
+            .btn {
+                border: 2px solid;
+            }
+        }
+        
+        /* 애니메이션 최적화 */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 -->
+        <div class="header">
+            <div class="header-title">주간 운동 달력</div>
+            <div class="header-date" id="currentDate"></div>
+            <div class="progress-container">
+                <div class="progress-header">
+                    <span>완료한 운동</span>
+                    <span id="completedCount">0/5개</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 통계 카드 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" style="color: #22c55e;" id="currentStreak">0</div>
+                <div class="stat-label">연속일</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color: #3b82f6;" id="bestStreak">0</div>
+                <div class="stat-label">최고기록</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color: #8b5cf6;" id="totalDays">0</div>
+                <div class="stat-label">총 운동일</div>
+            </div>
+        </div>
+
+        <!-- 완료 메시지 -->
+        <div class="completion-message hidden" id="completionMessage">
+            <div style="font-size: 18px; font-weight: bold; margin-bottom: 8px;">
+                🏆 5대 운동 완료!
+            </div>
+            <div style="font-size: 14px; opacity: 0.9;">
+                홍정기 교수님이 자랑스러워하실 거예요! 💪
+            </div>
+        </div>
+
+        <!-- 주간 달력 -->
+        <div class="exercise-section">
+            <div class="section-header">
+                <h2 class="section-title">이번 주 운동 달력</h2>
+                <button class="btn btn-secondary" onclick="resetWeek()">주간 초기화</button>
+            </div>
+            
+            <div class="week-calendar" id="weekCalendar"></div>
+        </div>
+
+        <!-- 운동 리스트 -->
+        <div class="exercise-section">
+            <div class="section-header">
+                <h2 class="section-title">5대 인생근육운동</h2>
+            </div>
+            
+            <div id="exerciseList"></div>
+        </div>
+
+        <!-- 격려 메시지 -->
+        <div class="encouragement-message">
+            <div class="encouragement-text" id="encouragementText">
+                오늘도 건강한 하루를 만들어요! 첫 운동을 시작해보세요 💪
+            </div>
+        </div>
+    </div>
+
+    <!-- 이미지 모달 -->
+    <div class="image-modal" id="imageModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeImageModal()">&times;</span>
+            <button class="image-nav prev" onclick="previousImage()" id="prevBtn">‹</button>
+            <img class="modal-image" id="modalImage" src="" alt="">
+            <button class="image-nav next" onclick="nextImage()" id="nextBtn">›</button>
+            <div class="image-counter" id="imageCounter">1 / 1</div>
+        </div>
+    </div>
+
+    <script>
+        // 운동 데이터
+        const exercises = [
+            { 
+                id: 1, 
+                name: '발, 발목 근육', 
+                description: '한쪽당 20회, 총 40회 × 3세트',
+                tip: '2주후 빠르게 하면 운동효과 증대',
+                images: ['사진01.png', '사진01-1.png', '사진01-2.png']
+            },
+            { 
+                id: 2, 
+                name: '대퇴 근육', 
+                description: '20회 (마지막에 10초 버티기)',
+                tip: '마지막 20회째에 10초 정지하면 효과 증대',
+                images: ['사진02.png', '사진02-1.png', '사진02-2.png', '사진02-3.png']
+            },
+            { 
+                id: 3, 
+                name: '척추기립근, 엉덩이 근육', 
+                description: '10회 또는 20회',
+                tip: '허리와 엉덩이 근육 강화',
+                images: ['사진03.png', '사진03-1.png']
+            },
+            { 
+                id: 4, 
+                name: '팔, 가슴 근육', 
+                description: '10회',
+                tip: '상체 근력 강화',
+                images: ['사진04.png', '사진04-1.png']
+            },
+            { 
+                id: 5, 
+                name: '손가락 근육', 
+                description: '10회',
+                tip: '악력과 손가락 근력 향상',
+                images: ['사진05.png', '사진05-1.png']
+            }
+        ];
+
+        // 상태 관리
+        let todayRecords = {};
+        let history = {};
+        let streakData = { current: 0, best: 0 };
+        let currentWeekStart = null;
+
+        // 초기화
+        function init() {
+            // 현재 날짜 표시
+            const today = new Date();
+            document.getElementById('currentDate').textContent = 
+                today.toLocaleDateString('ko-KR', { 
+                    month: 'long', 
+                    day: 'numeric',
+                    weekday: 'long'
+                });
+
+            // 이번 주 시작일 계산 (월요일)
+            currentWeekStart = getWeekStart(today);
+
+            // 로컬 스토리지에서 데이터 불러오기
+            loadData();
+            
+            // 주간 달력 렌더링
+            renderWeekCalendar();
+            
+            // 운동 리스트 렌더링
+            renderExerciseList();
+            
+            // 통계 업데이트
+            updateStats();
+        }
+
+        // 주간 시작일 계산 (월요일)
+        function getWeekStart(date) {
+            const day = date.getDay();
+            const diff = date.getDate() - day + (day === 0 ? -6 : 1); // 월요일로 조정
+            return new Date(date.setDate(diff));
+        }
+
+        // 주간 날짜 배열 생성
+        function getWeekDates(startDate) {
+            const dates = [];
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + i);
+                dates.push(date);
+            }
+            return dates;
+        }
+
+        // 데이터 로드
+        function loadData() {
+            const savedHistory = localStorage.getItem('exerciseHistory');
+            if (savedHistory) {
+                try {
+                    history = JSON.parse(savedHistory);
+                    const today = new Date().toDateString();
+                    if (history[today]) {
+                        todayRecords = history[today].records || {};
+                    }
+                } catch (error) {
+                    console.error('Failed to parse saved history:', error);
+                }
+            }
+        }
+
+        // 데이터 저장
+        function saveData() {
+            const today = new Date().toDateString();
+            history[today] = {
+                records: todayRecords,
+                date: today,
+                totalExercises: Object.values(todayRecords).filter(r => r.completed).length,
+                completionRate: (Object.values(todayRecords).filter(r => r.completed).length / exercises.length) * 100
+            };
+            localStorage.setItem('exerciseHistory', JSON.stringify(history));
+        }
+
+        // 운동 완료 토글
+        function toggleExercise(exerciseId) {
+            if (!todayRecords[exerciseId]) {
+                todayRecords[exerciseId] = { completed: false };
+            }
+            
+            todayRecords[exerciseId].completed = !todayRecords[exerciseId].completed;
+
+            saveData();
+            renderWeekCalendar();
+            renderExerciseList();
+            updateStats();
+        }
+
+        // 주간 달력 렌더링
+        function renderWeekCalendar() {
+            const weekCalendar = document.getElementById('weekCalendar');
+            weekCalendar.innerHTML = '';
+            
+            const weekDates = getWeekDates(currentWeekStart);
+            const dayNames = ['월', '화', '수', '목', '금', '토', '일'];
+            const today = new Date().toDateString();
+            
+            weekDates.forEach((date, index) => {
+                const dateString = date.toDateString();
+                const isToday = dateString === today;
+                const dayData = history[dateString];
+                const isCompleted = dayData && dayData.completionRate === 100;
+                
+                const dayCard = document.createElement('div');
+                dayCard.className = `day-card ${isToday ? 'today' : ''} ${isCompleted ? 'completed' : ''}`;
+                dayCard.onclick = () => toggleDay(dateString);
+                
+                dayCard.innerHTML = `
+                    <div class="day-name">${dayNames[index]}</div>
+                    <div class="day-number">${date.getDate()}</div>
+                    <div class="day-status">${isCompleted ? '✅' : '⭕'}</div>
+                `;
+                
+                weekCalendar.appendChild(dayCard);
+            });
+        }
+
+        // 하루 전체 운동 토글
+        function toggleDay(dateString) {
+            const dayData = history[dateString];
+            const isCompleted = dayData && dayData.completionRate === 100;
+            
+            if (isCompleted) {
+                // 완료된 날을 미완료로 변경
+                if (history[dateString]) {
+                    delete history[dateString];
+                    localStorage.setItem('exerciseHistory', JSON.stringify(history));
+                }
+            } else {
+                // 미완료 날을 완료로 변경
+                const allExercisesCompleted = {};
+                exercises.forEach(exercise => {
+                    allExercisesCompleted[exercise.id] = { completed: true };
+                });
+                
+                history[dateString] = {
+                    records: allExercisesCompleted,
+                    date: dateString,
+                    totalExercises: exercises.length,
+                    completionRate: 100
+                };
+                localStorage.setItem('exerciseHistory', JSON.stringify(history));
+            }
+            
+            renderWeekCalendar();
+            updateStats();
+        }
+
+        // 통계 계산
+        function calculateStats() {
+            const dates = Object.keys(history).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+            let currentStreak = 0;
+            let maxStreak = 0;
+            let tempStreak = 0;
+
+            for (let i = 0; i < dates.length; i++) {
+                const dayData = history[dates[i]];
+                if (dayData.completionRate === 100) {
+                    tempStreak++;
+                    if (i === 0) currentStreak = tempStreak;
+                } else {
+                    if (i === 0) currentStreak = 0;
+                    maxStreak = Math.max(maxStreak, tempStreak);
+                    tempStreak = 0;
+                }
+            }
+            maxStreak = Math.max(maxStreak, tempStreak);
+            
+            streakData = { current: currentStreak, best: maxStreak };
+        }
+
+        // 통계 업데이트
+        function updateStats() {
+            calculateStats();
+            
+            const completedExercises = Object.values(todayRecords).filter(r => r.completed).length;
+            const completionRate = (completedExercises / exercises.length) * 100;
+            
+            // 주간 통계 계산
+            const weekDates = getWeekDates(currentWeekStart);
+            const weekCompletedDays = weekDates.filter(date => {
+                const dateString = date.toDateString();
+                const dayData = history[dateString];
+                return dayData && dayData.completionRate === 100;
+            }).length;
+            
+            // UI 업데이트
+            document.getElementById('completedCount').textContent = `${completedExercises}/5개`;
+            document.getElementById('progressFill').style.width = `${completionRate}%`;
+            document.getElementById('currentStreak').textContent = streakData.current;
+            document.getElementById('bestStreak').textContent = streakData.best;
+            document.getElementById('totalDays').textContent = Object.keys(history).length;
+            
+            // 완료 메시지
+            const completionMessage = document.getElementById('completionMessage');
+            if (completedExercises === exercises.length) {
+                completionMessage.classList.remove('hidden');
+            } else {
+                completionMessage.classList.add('hidden');
+            }
+            
+            // 격려 메시지
+            const encouragementText = document.getElementById('encouragementText');
+            if (weekCompletedDays === 0) {
+                encouragementText.textContent = "이번 주 운동을 시작해보세요! 한 번에 하루씩 체크할 수 있어요 💪";
+            } else if (weekCompletedDays < 7) {
+                encouragementText.textContent = `이번 주 ${weekCompletedDays}/7일 완료! ${7 - weekCompletedDays}일 더 화이팅! 🔥`;
+            } else {
+                encouragementText.textContent = "이번 주 완벽 달성! 정말 대단해요! ⭐";
+            }
+        }
+
+        // 운동 리스트 렌더링
+        function renderExerciseList() {
+            const exerciseList = document.getElementById('exerciseList');
+            exerciseList.innerHTML = '';
+            
+            exercises.forEach(exercise => {
+                const record = todayRecords[exercise.id] || { completed: false };
+                
+                const exerciseCard = document.createElement('div');
+                exerciseCard.className = `exercise-card ${record.completed ? 'completed' : ''}`;
+                
+                // 운동 완료 토글을 위한 클릭 이벤트
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'exercise-header';
+                headerDiv.onclick = () => toggleExercise(exercise.id);
+                headerDiv.style.cursor = 'pointer';
+                
+                headerDiv.innerHTML = `
+                    <div class="exercise-name ${record.completed ? 'completed' : ''}">
+                        ${record.completed ? '✅ ' : '⭕ '}${exercise.name}
+                    </div>
+                    <div class="exercise-description">${exercise.description}</div>
+                `;
+                
+                // 운동 팁
+                const tipDiv = document.createElement('div');
+                tipDiv.className = 'exercise-tip';
+                tipDiv.innerHTML = `💡 ${exercise.tip}`;
+                
+                // 운동 이미지 갤러리
+                const imagesDiv = document.createElement('div');
+                imagesDiv.className = 'exercise-images';
+                
+                if (exercise.images && exercise.images.length > 0) {
+                    // 첫 번째 이미지만 미리보기로 표시
+                    const firstImage = document.createElement('img');
+                    firstImage.className = 'exercise-image';
+                    firstImage.src = exercise.images[0];
+                    firstImage.alt = `${exercise.name} 운동 사진`;
+                    firstImage.onclick = (e) => {
+                        e.stopPropagation();
+                        openImageModal(exercise.images, 0);
+                    };
+                    imagesDiv.appendChild(firstImage);
+                    
+                    // 추가 이미지가 있으면 갤러리 버튼 표시
+                    if (exercise.images.length > 1) {
+                        const galleryBtn = document.createElement('button');
+                        galleryBtn.className = 'image-gallery-btn';
+                        galleryBtn.textContent = `+${exercise.images.length - 1} 더보기`;
+                        galleryBtn.onclick = (e) => {
+                            e.stopPropagation();
+                            openImageModal(exercise.images, 0);
+                        };
+                        imagesDiv.appendChild(galleryBtn);
+                    }
+                }
+                
+                exerciseCard.appendChild(headerDiv);
+                exerciseCard.appendChild(tipDiv);
+                exerciseCard.appendChild(imagesDiv);
+                
+                exerciseList.appendChild(exerciseCard);
+            });
+        }
+
+        // 오늘 초기화
+        function resetToday() {
+            if (confirm('오늘의 운동 기록을 초기화하시겠습니까?')) {
+                todayRecords = {};
+                const today = new Date().toDateString();
+                if (history[today]) {
+                    delete history[today];
+                    localStorage.setItem('exerciseHistory', JSON.stringify(history));
+                }
+                renderWeekCalendar();
+                renderExerciseList();
+                updateStats();
+            }
+        }
+
+        // 주간 초기화
+        function resetWeek() {
+            if (confirm('이번 주 운동 기록을 모두 초기화하시겠습니까?')) {
+                const weekDates = getWeekDates(currentWeekStart);
+                weekDates.forEach(date => {
+                    const dateString = date.toDateString();
+                    if (history[dateString]) {
+                        delete history[dateString];
+                    }
+                });
+                localStorage.setItem('exerciseHistory', JSON.stringify(history));
+                renderWeekCalendar();
+                updateStats();
+            }
+        }
+
+        // 이미지 모달 관련 변수
+        let currentImages = [];
+        let currentImageIndex = 0;
+
+        // 이미지 모달 열기
+        function openImageModal(images, startIndex = 0) {
+            currentImages = images;
+            currentImageIndex = startIndex;
+            
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const imageCounter = document.getElementById('imageCounter');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            modalImage.src = currentImages[currentImageIndex];
+            imageCounter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
+            
+            // 네비게이션 버튼 활성화/비활성화
+            prevBtn.disabled = currentImageIndex === 0;
+            nextBtn.disabled = currentImageIndex === currentImages.length - 1;
+            
+            modal.classList.add('show');
+            
+            // ESC 키로 닫기
+            document.addEventListener('keydown', handleModalKeydown);
+        }
+
+        // 이미지 모달 닫기
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('show');
+            document.removeEventListener('keydown', handleModalKeydown);
+        }
+
+        // 이전 이미지
+        function previousImage() {
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+                updateModalImage();
+            }
+        }
+
+        // 다음 이미지
+        function nextImage() {
+            if (currentImageIndex < currentImages.length - 1) {
+                currentImageIndex++;
+                updateModalImage();
+            }
+        }
+
+        // 모달 이미지 업데이트
+        function updateModalImage() {
+            const modalImage = document.getElementById('modalImage');
+            const imageCounter = document.getElementById('imageCounter');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            modalImage.src = currentImages[currentImageIndex];
+            imageCounter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
+            
+            prevBtn.disabled = currentImageIndex === 0;
+            nextBtn.disabled = currentImageIndex === currentImages.length - 1;
+        }
+
+        // 모달 키보드 이벤트 처리
+        function handleModalKeydown(event) {
+            if (event.key === 'Escape') {
+                closeImageModal();
+            } else if (event.key === 'ArrowLeft') {
+                previousImage();
+            } else if (event.key === 'ArrowRight') {
+                nextImage();
+            }
+        }
+
+        // 모달 배경 클릭으로 닫기
+        document.getElementById('imageModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeImageModal();
+            }
+        });
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
