@@ -158,6 +158,289 @@
         .btn-primary:hover {
             background-color: #2563eb;
         }
+
+        /* 홍정기 교수 유튜브 참조 섹션 */
+        .video-guide-section {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #f59e0b;
+        }
+
+        .professor-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .professor-avatar {
+            font-size: 48px;
+            margin-right: 16px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .professor-details h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .professor-details p {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .youtube-link {
+            display: inline-block;
+            background: #ff0000;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .youtube-link:hover {
+            background: #cc0000;
+            transform: translateY(-1px);
+        }
+
+        .video-exercises {
+            margin-bottom: 20px;
+        }
+
+        .video-exercises h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 12px;
+        }
+
+        .video-exercise-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .video-exercise-item {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .video-exercise-item:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+        }
+
+        .video-exercise-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .video-exercise-icon {
+            font-size: 20px;
+        }
+
+        .video-exercise-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .video-play-btn {
+            background: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .video-play-btn:hover {
+            background: #cc0000;
+            transform: scale(1.1);
+        }
+
+        .video-tips {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .video-tips h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 12px;
+        }
+
+        .video-tips ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .video-tips li {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .video-tips li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        /* 영상 모달 */
+        .video-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .video-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .video-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .video-modal-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .video-modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6b7280;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .video-modal-close:hover {
+            background: #e2e8f0;
+            color: #1f2937;
+        }
+
+        .video-modal-body {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            max-width: 400px;
+            height: 225px;
+            background: #f8fafc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .video-thumbnail:hover {
+            border-color: #ff0000;
+            transform: scale(1.02);
+        }
+
+        .video-thumbnail-icon {
+            font-size: 48px;
+            color: #ff0000;
+        }
+
+        .video-description {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .video-watch-btn {
+            background: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .video-watch-btn:hover {
+            background: #cc0000;
+            transform: translateY(-1px);
+        }
         
         .btn-secondary {
             background-color: #6b7280;
@@ -565,9 +848,47 @@
         <div class="exercise-section">
             <div class="section-header">
                 <h2 class="section-title">5대 인생근육운동</h2>
+                <button class="btn btn-primary" onclick="openVideoGuide()">📺 영상 가이드</button>
             </div>
             
             <div id="exerciseList"></div>
+        </div>
+
+        <!-- 홍정기 교수 유튜브 참조 섹션 -->
+        <div class="exercise-section">
+            <div class="section-header">
+                <h2 class="section-title">🎥 홍정기 교수 영상 가이드</h2>
+            </div>
+            
+            <div class="video-guide-section">
+                <div class="professor-info">
+                    <div class="professor-avatar">👨‍⚕️</div>
+                    <div class="professor-details">
+                        <h3>홍정기 교수</h3>
+                        <p>5대 인생근육운동 전문가</p>
+                        <a href="https://www.youtube.com/watch?v=V-lbqgdG0TM" target="_blank" class="youtube-link">
+                            📺 유튜브 채널 바로가기
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="video-exercises">
+                    <h4>운동별 영상 가이드</h4>
+                    <div class="video-exercise-list" id="videoExerciseList">
+                        <!-- 운동별 영상 링크들이 여기에 표시됩니다 -->
+                    </div>
+                </div>
+                
+                <div class="video-tips">
+                    <h4>💡 영상 시청 팁</h4>
+                    <ul>
+                        <li>운동 전에 영상을 먼저 시청하여 정확한 자세를 익히세요</li>
+                        <li>홍정기 교수의 설명을 따라 천천히 운동하세요</li>
+                        <li>자세가 어려우면 교수님의 설명을 다시 들어보세요</li>
+                        <li>꾸준한 연습으로 완벽한 자세를 익혀보세요</li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <!-- 격려 메시지 -->
@@ -589,6 +910,27 @@
         </div>
     </div>
 
+    <!-- 영상 모달 -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-modal-content">
+            <div class="video-modal-header">
+                <div class="video-modal-title" id="videoModalTitle">운동 영상 가이드</div>
+                <button class="video-modal-close" onclick="closeVideoModal()">&times;</button>
+            </div>
+            <div class="video-modal-body">
+                <div class="video-thumbnail" onclick="openYouTubeVideo()">
+                    <div class="video-thumbnail-icon">▶️</div>
+                </div>
+                <div class="video-description" id="videoDescription">
+                    홍정기 교수의 정확한 운동 방법을 영상으로 확인하세요
+                </div>
+                <a href="#" class="video-watch-btn" id="videoWatchBtn" target="_blank">
+                    📺 유튜브에서 보기
+                </a>
+            </div>
+        </div>
+    </div>
+
     <script>
         // 운동 데이터
         const exercises = [
@@ -597,35 +939,45 @@
                 name: '발, 발목 근육', 
                 description: '한쪽당 20회, 총 40회 × 3세트',
                 tip: '2주후 빠르게 하면 운동효과 증대',
-                images: ['사진01.png', '사진01-1.png', '사진01-2.png']
+                images: ['사진01.png', '사진01-1.png', '사진01-2.png'],
+                videoUrl: 'https://www.youtube.com/watch?v=V-lbqgdG0TM',
+                videoDescription: '발과 발목 근육을 강화하는 기본 운동법을 홍정기 교수가 직접 설명합니다.'
             },
             { 
                 id: 2, 
                 name: '대퇴 근육', 
                 description: '20회 (마지막에 10초 버티기)',
                 tip: '마지막 20회째에 10초 정지하면 효과 증대',
-                images: ['사진02.png', '사진02-1.png', '사진02-2.png', '사진02-3.png']
+                images: ['사진02.png', '사진02-1.png', '사진02-2.png', '사진02-3.png'],
+                videoUrl: 'https://www.youtube.com/watch?v=V-lbqgdG0TM',
+                videoDescription: '대퇴 근육 강화와 버티기 운동의 정확한 방법을 배워보세요.'
             },
             { 
                 id: 3, 
                 name: '척추기립근, 엉덩이 근육', 
                 description: '10회 또는 20회',
                 tip: '허리와 엉덩이 근육 강화',
-                images: ['사진03.png', '사진03-1.png']
+                images: ['사진03.png', '사진03-1.png'],
+                videoUrl: 'https://www.youtube.com/watch?v=V-lbqgdG0TM',
+                videoDescription: '척추기립근과 엉덩이 근육을 효과적으로 강화하는 운동법입니다.'
             },
             { 
                 id: 4, 
                 name: '팔, 가슴 근육', 
                 description: '10회',
                 tip: '상체 근력 강화',
-                images: ['사진04.png', '사진04-1.png']
+                images: ['사진04.png', '사진04-1.png'],
+                videoUrl: 'https://www.youtube.com/watch?v=V-lbqgdG0TM',
+                videoDescription: '팔과 가슴 근육을 강화하는 상체 운동의 정확한 자세를 확인하세요.'
             },
             { 
                 id: 5, 
                 name: '손가락 근육', 
                 description: '10회',
                 tip: '악력과 손가락 근력 향상',
-                images: ['사진05.png', '사진05-1.png']
+                images: ['사진05.png', '사진05-1.png'],
+                videoUrl: 'https://www.youtube.com/watch?v=V-lbqgdG0TM',
+                videoDescription: '손가락과 악력을 강화하는 세밀한 운동법을 배워보세요.'
             }
         ];
 
@@ -1025,6 +1377,142 @@
                 closeImageModal();
             }
         });
+
+        // 영상 가이드 열기
+        function openVideoGuide() {
+            const videoExerciseList = document.getElementById('videoExerciseList');
+            videoExerciseList.innerHTML = '';
+            
+            exercises.forEach(exercise => {
+                const videoItem = document.createElement('div');
+                videoItem.className = 'video-exercise-item';
+                videoItem.onclick = () => openVideoModal(exercise);
+                
+                videoItem.innerHTML = `
+                    <div class="video-exercise-info">
+                        <div class="video-exercise-icon">${exercise.images[0] ? '🦶' : '💪'}</div>
+                        <div class="video-exercise-name">${exercise.name}</div>
+                    </div>
+                    <button class="video-play-btn" onclick="event.stopPropagation(); openVideoModal(${JSON.stringify(exercise).replace(/"/g, '&quot;')})">
+                        ▶️
+                    </button>
+                `;
+                
+                videoExerciseList.appendChild(videoItem);
+            });
+            
+            // 영상 가이드 섹션으로 스크롤
+            document.querySelector('.video-guide-section').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // 영상 모달 열기
+        function openVideoModal(exercise) {
+            const modal = document.getElementById('videoModal');
+            const title = document.getElementById('videoModalTitle');
+            const description = document.getElementById('videoDescription');
+            const watchBtn = document.getElementById('videoWatchBtn');
+            
+            title.textContent = `${exercise.name} - 영상 가이드`;
+            description.textContent = exercise.videoDescription;
+            watchBtn.href = exercise.videoUrl;
+            
+            modal.classList.add('show');
+        }
+
+        // 영상 모달 닫기
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            modal.classList.remove('show');
+        }
+
+        // 유튜브 영상 열기
+        function openYouTubeVideo() {
+            const watchBtn = document.getElementById('videoWatchBtn');
+            if (watchBtn.href && watchBtn.href !== '#') {
+                window.open(watchBtn.href, '_blank');
+            }
+        }
+
+        // 운동 리스트에 영상 버튼 추가
+        function renderExerciseList() {
+            const exerciseList = document.getElementById('exerciseList');
+            exerciseList.innerHTML = '';
+            
+            exercises.forEach(exercise => {
+                const record = todayRecords[exercise.id] || { completed: false };
+                
+                const exerciseCard = document.createElement('div');
+                exerciseCard.className = `exercise-card ${record.completed ? 'completed' : ''}`;
+                
+                // 운동 완료 토글을 위한 클릭 이벤트
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'exercise-header';
+                headerDiv.onclick = () => toggleExercise(exercise.id);
+                headerDiv.style.cursor = 'pointer';
+                
+                headerDiv.innerHTML = `
+                    <div class="exercise-name ${record.completed ? 'completed' : ''}">
+                        ${record.completed ? '✅ ' : '⭕ '}${exercise.name}
+                    </div>
+                    <div class="exercise-description">${exercise.description}</div>
+                `;
+                
+                // 운동 팁
+                const tipDiv = document.createElement('div');
+                tipDiv.className = 'exercise-tip';
+                tipDiv.innerHTML = `💡 ${exercise.tip}`;
+                
+                // 운동 이미지 갤러리
+                const imagesDiv = document.createElement('div');
+                imagesDiv.className = 'exercise-images';
+                
+                if (exercise.images && exercise.images.length > 0) {
+                    // 첫 번째 이미지만 미리보기로 표시
+                    const firstImage = document.createElement('img');
+                    firstImage.className = 'exercise-image';
+                    firstImage.src = exercise.images[0];
+                    firstImage.alt = `${exercise.name} 운동 사진`;
+                    firstImage.onclick = (e) => {
+                        e.stopPropagation();
+                        openImageModal(exercise.images, 0);
+                    };
+                    imagesDiv.appendChild(firstImage);
+                    
+                    // 추가 이미지가 있으면 갤러리 버튼 표시
+                    if (exercise.images.length > 1) {
+                        const galleryBtn = document.createElement('button');
+                        galleryBtn.className = 'image-gallery-btn';
+                        galleryBtn.textContent = `+${exercise.images.length - 1} 더보기`;
+                        galleryBtn.onclick = (e) => {
+                            e.stopPropagation();
+                            openImageModal(exercise.images, 0);
+                        };
+                        imagesDiv.appendChild(galleryBtn);
+                    }
+                }
+                
+                // 영상 가이드 버튼 추가
+                const videoBtn = document.createElement('button');
+                videoBtn.className = 'image-gallery-btn';
+                videoBtn.textContent = '📺 영상보기';
+                videoBtn.style.backgroundColor = '#ff0000';
+                videoBtn.style.color = 'white';
+                videoBtn.style.borderColor = '#ff0000';
+                videoBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    openVideoModal(exercise);
+                };
+                imagesDiv.appendChild(videoBtn);
+                
+                exerciseCard.appendChild(headerDiv);
+                exerciseCard.appendChild(tipDiv);
+                exerciseCard.appendChild(imagesDiv);
+                
+                exerciseList.appendChild(exerciseCard);
+            });
+        }
 
         // 페이지 로드 시 초기화
         document.addEventListener('DOMContentLoaded', init);
